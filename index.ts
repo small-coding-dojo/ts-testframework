@@ -1,14 +1,28 @@
 try
 {
-    assert(false, false);
+    assertTrue(true);
     console.log("Test succeeded.");
 }
 catch (err){
-    console.log("Test failed.");
+    throw new Error("basic boolean assertion should be true");
 }
 
-function assert(expected: boolean, actual: boolean) {
-    if(expected !== actual){
-        throw new Error();
+try
+{
+    assertTrue(false);
+    // noinspection ExceptionCaughtLocallyJS because we intentionally throw the error.
+    throw new Error("Test failed.");
+}
+catch (err){
+    if ((err as Error).message.indexOf("Test failed") > -1) {
+        throw new Error ("basic boolean assertion should be false")
+    }
+    console.log("Test succeeded.")
+}
+
+
+function assertTrue(actual: boolean) {
+    if(!actual){
+        throw new Error("actual should be true, but was false");
     }
 }
